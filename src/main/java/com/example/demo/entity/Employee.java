@@ -13,6 +13,17 @@ public class Employee
     private String dob;
     private String department;
 
+    public Employee(String firstName, String lastName, char gender, String dob, String department) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.dob = dob;
+        this.department = department;
+    }
+
+    public Employee() {
+    }
+
     public String getFirstName() {
         return firstName;
     }
