@@ -14,9 +14,10 @@ public class EmployeeController {
     private EmployeeServiceImpl employeeService;
 
     @RequestMapping(method = RequestMethod.POST, value = Constants.SAVE_EMP)
-    public void addEmp(@RequestBody Employee emp)
+    public String addEmp(@RequestParam String firstName, @RequestParam String lastName, @RequestParam char gender, @RequestParam String dob, @RequestParam String department)
     {
-        employeeService.addEmploye(emp);
+        employeeService.addEmploye(new Employee(firstName,lastName,gender,dob,department));
+        return "Successfully Added";
     }
     @RequestMapping(Constants.GET_EMP_BY_ID)
     public Employee getEmpByFirstName(@PathVariable String name)
@@ -28,6 +29,6 @@ public class EmployeeController {
     {
         return employeeService.getAllEmployee();
     }
-
-
 }
+
+
