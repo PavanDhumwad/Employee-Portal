@@ -1,13 +1,16 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.Employee;
+//import com.example.demo.repository.EmployeeRepository;
 import com.example.demo.repository.EmployeeRepository;
 import com.example.demo.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -16,22 +19,28 @@ public class EmployeeServiceImpl implements EmployeeService
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    public List<Employee> getAllEmployee()
+    public List<Employee> getAllEmployees()
     {
-        List<Employee> emp = new ArrayList<>();
-        employeeRepository.findAll().forEach(emp::add);
-        emp.sort(Comparator.comparing(Employee::getFirstName));
-        return emp;
+        ArrayList<Employee> employeeDB = new ArrayList<>();
+        employeeRepository.findAll().forEach(employeeDB::add);
+        return employeeDB;
     }
 
-    public void addEmploye(Employee emp)
+    public ResponseEntity<Object> addEmployee(Employee newEmp)
     {
-        employeeRepository.save(emp);
+       employeeRepository.save(newEmp);
+       URI location = ServletUriComponentsBuilder.fromCurrentRequest().
+                path("{id}").buildAndExpand(newEmp.getEmpID()).toUri();
+       return ResponseEntity.created(location).build();
     }
 
-    public Employee getEmpByFirstName(String name)
+    public Employee getEmpByID(int empID)
     {
-        return employeeRepository.findOne(name);
+        return employeeRepository.findOne(empID);
+    }
+
+    public List<Employee> getEmpByDept(String dept) {
+        return employeeRepository.findByDepartment(dept);
     }
 }
 

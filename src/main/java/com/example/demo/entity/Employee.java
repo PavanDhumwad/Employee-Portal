@@ -1,27 +1,36 @@
 package com.example.demo.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Employee
 {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private int empID;
     private String firstName;
     private String lastName;
-    private char gender;
-    private String dob;
     private String department;
 
-    public Employee(String firstName, String lastName, char gender, String dob, String department) {
+    protected Employee() {
+    }
+
+    protected Employee(String firstName, String lastName, String department) {
+        this.empID = empID;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.gender = gender;
-        this.dob = dob;
         this.department = department;
     }
 
-    public Employee() {
+    public int getEmpID() {
+        return empID;
+    }
+
+    public void setEmpID(int empID) {
+        this.empID = empID;
     }
 
     public String getFirstName() {
@@ -38,22 +47,6 @@ public class Employee
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public char getGender() {
-        return gender;
-    }
-
-    public void setGender(char gender) {
-        this.gender = gender;
-    }
-
-    public String getDob() {
-        return dob;
-    }
-
-    public void setDob(String dob) {
-        this.dob = dob;
     }
 
     public String getDepartment() {

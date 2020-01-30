@@ -4,6 +4,7 @@ import com.example.demo.entity.Employee;
 import com.example.demo.service.impl.EmployeeServiceImpl;
 import com.example.demo.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,22 +14,27 @@ public class EmployeeController {
     @Autowired
     private EmployeeServiceImpl employeeService;
 
-    @RequestMapping(method = RequestMethod.POST, value = Constants.SAVE_EMP)
-    public String addEmp(@RequestParam String firstName, @RequestParam String lastName, @RequestParam char gender, @RequestParam String dob, @RequestParam String department)
+    @PostMapping(Constants.GET_ALL_EMP) //Or @RequestMapping(method = RequestMethod.POST, value = Constants.GET_ALL_EMP)
+    public ResponseEntity<Object> addEmployee(@RequestBody Employee newEmployee)
     {
-        employeeService.addEmploye(new Employee(firstName,lastName,gender,dob,department));
-        return "Successfully Added";
+        return employeeService.addEmployee(newEmployee);
     }
+
+    @GetMapping(Constants.GET_ALL_EMP) //Or @RequestMapping(Constants.GET_ALL_EMP)
+    public List<Employee> retrieveEmployees()
+    {
+        return employeeService.getAllEmployees();
+    }
+
+    /*@GetMapping(Constants.GET_ALL_EMP)
+    public List<Employee> getEmpsByDept(@RequestParam String dept)
+    {
+        return employeeService.getEmpByDept(dept);
+    }*/
+
     @RequestMapping(Constants.GET_EMP_BY_ID)
-    public Employee getEmpByFirstName(@PathVariable String name)
+    public Employee getEmpByID(@PathVariable int empID)
     {
-        return employeeService.getEmpByFirstName(name);
-    }
-    @RequestMapping(Constants.GET_ALL_EMP)
-    public List<Employee> getAllEmp()
-    {
-        return employeeService.getAllEmployee();
+        return employeeService.getEmpByID(empID);
     }
 }
-
-
